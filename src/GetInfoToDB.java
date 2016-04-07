@@ -153,14 +153,17 @@ public class GetInfoToDB {
             String sql0;
             sql0 = "SELECT email FROM Vote WHERE email = '"+email+"'";
             ResultSet rs = stmnt.executeQuery(sql0);
-            rs.next();
-            String em = rs.getString("email");
+            String em = "";
+            while(rs.next()){
+                em = rs.getString("email");
+            }
+            // if the email is not in the DB, we insert it to table Vote
             if (em == null || em.isEmpty()) {
 
-                String sql1;
+                String sql99;
 
-                sql1 = "INSERT INTO Vote VALUES('" + email + "', '" + id + "')";
-                stmnt.executeUpdate(sql1);
+                sql99 = "INSERT INTO Vote VALUES('" + email + "', '" + id + "')";
+                stmnt.executeUpdate(sql99);
             }else{
                 //Do nothing.
                 System.out.println(em + " already voted, fail.");

@@ -35,8 +35,8 @@ public class CleanUpDB {
             stmt = conn.createStatement();
 
             // Auto Generate Samples
-            String sql;
-            String sql1;
+            //String sql;
+            //String sql1;
             String sql2;
             String sql3;
 

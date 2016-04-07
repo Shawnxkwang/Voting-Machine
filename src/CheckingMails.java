@@ -3,6 +3,7 @@
  */
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.mail.*;
@@ -11,6 +12,7 @@ import javax.mail.internet.InternetAddress;
 public class CheckingMails {
     static String e_text;
     static String e_address;
+    static GetInfoToDB gdb = new GetInfoToDB();
     public static void check(String host, String storeType, String user,
                              String password)
     {
@@ -48,13 +50,17 @@ public class CheckingMails {
 
                 e_address = ((InternetAddress)message.getFrom()[0]).getAddress();
                 System.out.println("From: " + e_address);
-                System.out.print("Text: ");
-                writePart(message);
+                e_text = getText(message);
+                Scanner in = new Scanner(e_text).useDelimiter("[^0-9]+");
+                int integer = in.nextInt();
+                System.out.print("Text: " + integer + "\n");
+                gdb.store(e_address,integer);
+
 
 
 
             }
-
+            gdb.getTrend();
             //close the store and folder objects
             emailFolder.close(false);
             store.close();
@@ -79,20 +85,47 @@ public class CheckingMails {
 
     }
 
-    public static void writePart(Part p) throws Exception {
-        if (p.isMimeType("text/plain")) {
 
-            System.out.println((String) p.getContent());
-        }
-        //check if the content has attachment
-        else if (p.isMimeType("multipart/*")) {
+    // extract the data we need from email body
+    private static boolean textIsHtml = false;
 
-            Multipart mp = (Multipart) p.getContent();
-            int count = mp.getCount();
-            for (int i = 0; i < count; i++)
-                writePart(mp.getBodyPart(i));
+    private static String getText(Part p) throws
+            MessagingException, IOException {
+        if (p.isMimeType("text/*")) {
+            String s = (String)p.getContent();
+            textIsHtml = p.isMimeType("text/html");
+            return s;
         }
 
+        if (p.isMimeType("multipart/alternative")) {
+            // prefer html text over plain text
+            Multipart mp = (Multipart)p.getContent();
+            String text = null;
+            for (int i = 0; i < mp.getCount(); i++) {
+                Part bp = mp.getBodyPart(i);
+                if (bp.isMimeType("text/plain")) {
+                    if (text == null)
+                        text = getText(bp);
+                    continue;
+                } else if (bp.isMimeType("text/html")) {
+                    String s = getText(bp);
+                    if (s != null)
+                        return s;
+                } else {
+                    return getText(bp);
+                }
+            }
+            return text;
+        } else if (p.isMimeType("multipart/*")) {
+            Multipart mp = (Multipart)p.getContent();
+            for (int i = 0; i < mp.getCount(); i++) {
+                String s = getText(mp.getBodyPart(i));
+                if (s != null)
+                    return s;
+            }
+        }
+
+        return null;
     }
 
 
