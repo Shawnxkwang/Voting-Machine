@@ -2,6 +2,7 @@
  * Created by Xiaokai Wang.
  * Do Not Execute this file Again!!!!
  * Tables are already created into the db!!!!
+ * DO NOT CHANGE ANYTHING.
  */
 //STEP 1. Import required packages
 import java.sql.*;
@@ -72,4 +73,4 @@ public class InitDB {
         }//end try
         System.out.println("Goodbye!");
     }//end main
-}//end FirstExample
+}//end

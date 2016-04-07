@@ -1,6 +1,6 @@
 /**
  * Created by Xiaokai Wang.
- * Clean up DB.
+ * Clean up DB. DO NOT CHANGE ANYTHING.
  */
 
 
@@ -82,5 +82,5 @@ public class CleanUpDB {
         }//end try
         System.out.println("Goodbye!");
     }//end main
-}//end FirstExample
+}//end
 

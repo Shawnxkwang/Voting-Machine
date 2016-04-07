@@ -2,6 +2,7 @@
 /**
  * Created by Xiaokai Wang.
  * Insert sample data into tables.
+ * DO NOT CHANGE ANYTHING.
  */
 
 
@@ -95,5 +96,5 @@ public class InsertIntoDB {
         }//end try
         System.out.println("Goodbye!");
     }//end main
-}//end FirstExample
+}//end
 
