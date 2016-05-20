@@ -40,38 +40,35 @@ public class InsertIntoDB {
 
             // Auto Generate Samples
             String sql;
-            Random rand = new Random();
-            String[] contents = {"Data Minning", "Machine Learning", "Game Dev", "WiCS",
-                    "Pitt CS", "Intership", "Job Opportunity", "Random"};
-            for (int i = 1; i <= 500; i++){
-
-                // auto gen contents
-                String content = contents[rand.nextInt(8)];
-                sql = "INSERT INTO Posters VALUES('"+i+"','"+content+"')";
+            for (int j = 1; j <= 10; j++){
+                int id = j;
+                String n = "aa"+j;
+                String d = "bb"+j;
+                int c = j*j;
+                sql = "INSERT INTO GroupTable VALUES('"+id+"', '"+n+"', '"+n+"', '"+c+"')";
                 stmt.executeUpdate(sql);
             }
 
-            //STEP 5: Clean-up environment
-            System.out.println("Data Inserted!");
-            System.out.println("Poster Data:");
+            String email;String fn;String ln;
             String sql2;
-            sql2 = "SELECT id, content FROM Posters ORDER BY id";
-            ResultSet rs = stmt.executeQuery(sql2);
 
-            //STEP 5: Extract data from result set
+            for (int i = 0; i < 101; i++){
+                email = i+"xiw@pitt.edu";
+                fn = "james"+i;
+                ln = "john"+i;
 
-            System.out.println("-------------------------");
-            System.out.println("Poster ID " +" | "+" Content ");
-            while(rs.next()){
-                //Retrieve by column name
-                int id  = rs.getInt("id");
-                String c = rs.getString("content");
-                // Print Data.
-                System.out.println("  "+id+ "        |   " +c+ " ");
+                String insert = "INSERT INTO UserTable VALUES(email,firstName,lastName,birthday)" +
+                        "VALUES (?,?,?,?)";
+                PreparedStatement ps = conn.prepareStatement(insert);
+                ps.setString(1,email);
+                ps.setString(2,fn);
+                ps.setString(3,ln);
+                ps.setString(4,"19860416");
+                ps.executeUpdate();
 
             }
-            System.out.println("-------------------------");
-            rs.close();
+          System.out.print("----------------\n");
+
             stmt.close();
             conn.close();
         }catch(SQLException se){

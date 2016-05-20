@@ -39,6 +39,8 @@ public class CleanUpDB {
             //String sql1;
             String sql2;
             String sql3;
+            String sql7;
+            String sql8;String sql9;
 
             // remove data
 
@@ -49,10 +51,19 @@ public class CleanUpDB {
 
             // remove tables
 
-            sql2 = "DROP TABLE Vote";
-            stmt.executeUpdate(sql2);
-            sql3 = "DROP TABLE Posters";
-            stmt.executeUpdate(sql3);
+           sql2 = "DROP TABLE Friendship";
+           stmt.executeUpdate(sql2);
+
+            sql3 = "DROP TABLE Message";
+          stmt.executeUpdate(sql3);
+            sql7 = "DROP TABLE Membership";
+            stmt.executeUpdate(sql7);
+
+            sql8 = "DROP TABLE GroupTable";
+            stmt.executeUpdate(sql8);
+
+            sql9 = "DROP TABLE UserTable";
+            stmt.executeUpdate(sql9);
 
 
 
